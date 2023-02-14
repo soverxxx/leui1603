@@ -53,7 +53,7 @@ if (isBrowser()) {
   Choices = require("choices.js");
 }
 
-const MAX_POST_TITLE_LENGTH = 200;
+const MAX_POST_TITLE_LENGTH = 112;
 
 interface PostFormProps {
   post_view?: PostView; // If a post is given, that means this is an edit
