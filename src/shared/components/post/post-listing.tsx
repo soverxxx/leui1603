@@ -240,7 +240,7 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
           <Icon icon="image" classes="mini-overlay" />
         </a>
       );
-    } else if (post.thumbnail_url) {
+    } else if (post.url) {
       return (
         <a
           class="text-body d-inline-block position-relative mb-2"
