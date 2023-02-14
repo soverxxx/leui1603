@@ -230,11 +230,8 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
     if (isImage(post.url)) {
       return (
         <a
-          href={post.url}
-          class="text-body d-inline-block position-relative mb-2"
-          data-tippy-content={i18n.t("expand_here")}
-          onClick={linkEvent(this, this.handleImageExpandClick)}
-          aria-label={i18n.t("expand_here")}
+          href={`/post/${post.id}`}
+          class="text-body d-inline-block position-relative mb-2"}
         >
           {this.imgThumb(this.imageSrc)}
           <Icon icon="image" classes="mini-overlay" />
@@ -417,8 +414,8 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
           {this.showBody && post.url ? (
             <a
               className={!post.stickied ? "text-body" : "text-primary"}
-              href={post.url}
-              title={post.url}
+              href={`/post/${post.id}`}
+              title={post.name}
               rel={relTags}
             >
               {post.name}

@@ -1094,7 +1094,7 @@ function hsl(num: number) {
 
 export function previewLines(
   text: string,
-  maxChars = 300,
+  maxChars = 550,
   maxLines = 1
 ): string {
   return (
