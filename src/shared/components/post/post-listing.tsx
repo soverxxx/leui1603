@@ -231,7 +231,7 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
       return (
         <a
           href={`/post/${post.id}`}
-          class="text-body d-inline-block position-relative mb-2"}
+          class="text-body d-inline-block position-relative mb-2"
         >
           {this.imgThumb(this.imageSrc)}
           <Icon icon="image" classes="mini-overlay" />
