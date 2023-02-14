@@ -23,9 +23,6 @@ export class PictrsImage extends Component<PictrsImageProps, any> {
   render() {
     return (
       <picture>
-        <source srcSet={this.src("webp")} type="image/webp" />
-        <source srcSet={this.props.src} />
-        <source srcSet={this.src("jpg")} type="image/jpeg" />
         <img
           src={this.props.src}
           alt={this.alt()}

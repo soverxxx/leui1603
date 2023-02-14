@@ -230,7 +230,7 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
     if (isImage(post.url)) {
       return (
         <a
-          href={this.imageSrc}
+          href={post.url}
           class="text-body d-inline-block position-relative mb-2"
           data-tippy-content={i18n.t("expand_here")}
           onClick={linkEvent(this, this.handleImageExpandClick)}
@@ -1076,7 +1076,7 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
     return post.thumbnail_url || isImage(post.url) ? (
       <div class="row">
         <div className={`${this.state.imageExpanded ? "col-12" : "col-8"}`}>
-          {this.postTitleLine()}
+          {/*this.postTitleLine() */} 
         </div>
         <div class="col-4">
           {/* Post body prev or thumbnail */}
@@ -1139,6 +1139,7 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
             </div>
             <div class="col-12 col-sm-9">
               <div class="row">
+                  {this.showMobilePreview()}
                   {this.duplicatesLine()}
                   <div className="col-12">
                   {this.commentsLine()}
