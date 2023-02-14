@@ -360,7 +360,7 @@ export class Home extends Component<any, HomeState> {
           <div>
             <div class="card border-secondary mb-3">
               <div class="card-body">
-                {this.trendingCommunities()}
+                {site.sidebar && this.siteSidebar()}
                 {this.createCommunityButton()}
                 {this.exploreCommunitiesButton()}
               </div>
@@ -374,6 +374,12 @@ export class Home extends Component<any, HomeState> {
               )}
 
             <div class="card border-secondary mb-3">
+              <div class="card-body">
+                {this.trendingCommunities()}
+              </div>
+            </div>
+
+            <div class="card border-secondary mb-3">
               <div class="card-body">{this.sidebar()}</div>
             </div>
           </div>
@@ -382,10 +388,10 @@ export class Home extends Component<any, HomeState> {
     );
   }
 
-  createCommunityButton() {
+  createPost() {
     return (
-      <Link className="mt-2 btn btn-secondary btn-block" to="/create_community">
-        {i18n.t("create_a_community")}
+      <Link className="mt-2 btn btn-secondary btn-block" to="/create_post">
+        {i18n.t("create_a_post")}
       </Link>
     );
   }
@@ -449,11 +455,11 @@ export class Home extends Component<any, HomeState> {
         {!this.state.showEditSite ? (
           <div>
             <div class="mb-2">
-              {this.siteName()}
+              
               {this.adminButtons()}
             </div>
             <BannerIconHeader banner={site.banner} />
-            {this.siteInfo()}
+            
           </div>
         ) : (
           <SiteForm site={site} onCancel={this.handleEditCancel} />
@@ -477,7 +483,6 @@ export class Home extends Component<any, HomeState> {
     return (
       <div>
         {site.description && <h6>{site.description}</h6>}
-        {site.sidebar && this.siteSidebar()}
         {this.badges()}
         {this.admins()}
       </div>
