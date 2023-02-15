@@ -143,140 +143,6 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
     );
   }
 
-  adminButtons() {
-    let community_view = this.props.community_view;
-    return (
-      <>
-        <ul class="list-inline mb-1 text-muted font-weight-bold">
-          {this.canMod && (
-            <>
-              <li className="list-inline-item-action">
-                <button
-                  class="btn btn-link text-muted d-inline-block"
-                  onClick={linkEvent(this, this.handleEditClick)}
-                  data-tippy-content={i18n.t("edit")}
-                  aria-label={i18n.t("edit")}
-                >
-                  <Icon icon="edit" classes="icon-inline" />
-                </button>
-              </li>
-              {!this.amTopMod &&
-                (!this.state.showConfirmLeaveModTeam ? (
-                  <li className="list-inline-item-action">
-                    <button
-                      class="btn btn-link text-muted d-inline-block"
-                      onClick={linkEvent(
-                        this,
-                        this.handleShowConfirmLeaveModTeamClick
-                      )}
-                    >
-                      {i18n.t("leave_mod_team")}
-                    </button>
-                  </li>
-                ) : (
-                  <>
-                    <li className="list-inline-item-action">
-                      {i18n.t("are_you_sure")}
-                    </li>
-                    <li className="list-inline-item-action">
-                      <button
-                        class="btn btn-link text-muted d-inline-block"
-                        onClick={linkEvent(this, this.handleLeaveModTeamClick)}
-                      >
-                        {i18n.t("yes")}
-                      </button>
-                    </li>
-                    <li className="list-inline-item-action">
-                      <button
-                        class="btn btn-link text-muted d-inline-block"
-                        onClick={linkEvent(
-                          this,
-                          this.handleCancelLeaveModTeamClick
-                        )}
-                      >
-                        {i18n.t("no")}
-                      </button>
-                    </li>
-                  </>
-                ))}
-              {this.amTopMod && (
-                <li className="list-inline-item-action">
-                  <button
-                    class="btn btn-link text-muted d-inline-block"
-                    onClick={linkEvent(this, this.handleDeleteClick)}
-                    data-tippy-content={
-                      !community_view.community.deleted
-                        ? i18n.t("delete")
-                        : i18n.t("restore")
-                    }
-                    aria-label={
-                      !community_view.community.deleted
-                        ? i18n.t("delete")
-                        : i18n.t("restore")
-                    }
-                  >
-                    <Icon
-                      icon="trash"
-                      classes={`icon-inline ${
-                        community_view.community.deleted && "text-danger"
-                      }`}
-                    />
-                  </button>
-                </li>
-              )}
-            </>
-          )}
-          {this.canAdmin && (
-            <li className="list-inline-item">
-              {!this.props.community_view.community.removed ? (
-                <button
-                  class="btn btn-link text-muted d-inline-block"
-                  onClick={linkEvent(this, this.handleModRemoveShow)}
-                >
-                  {i18n.t("remove")}
-                </button>
-              ) : (
-                <button
-                  class="btn btn-link text-muted d-inline-block"
-                  onClick={linkEvent(this, this.handleModRemoveSubmit)}
-                >
-                  {i18n.t("restore")}
-                </button>
-              )}
-            </li>
-          )}
-        </ul>
-        {this.state.showRemoveDialog && (
-          <form onSubmit={linkEvent(this, this.handleModRemoveSubmit)}>
-            <div class="form-group row">
-              <label class="col-form-label" htmlFor="remove-reason">
-                {i18n.t("reason")}
-              </label>
-              <input
-                type="text"
-                id="remove-reason"
-                class="form-control mr-2"
-                placeholder={i18n.t("optional")}
-                value={this.state.removeReason}
-                onInput={linkEvent(this, this.handleModRemoveReasonChange)}
-              />
-            </div>
-            {/* TODO hold off on expires for now */}
-            {/* <div class="form-group row"> */}
-            {/*   <label class="col-form-label">Expires</label> */}
-            {/*   <input type="date" class="form-control mr-2" placeholder={i18n.t('expires')} value={this.state.removeExpires} onInput={linkEvent(this, this.handleModRemoveExpiresChange)} /> */}
-            {/* </div> */}
-            <div class="form-group row">
-              <button type="submit" class="btn btn-secondary">
-                {i18n.t("remove_community")}
-              </button>
-            </div>
-          </form>
-        )}
-      </>
-    );
-  }
-
   badges() {
     let community_view = this.props.community_view;
     let counts = community_view.counts;
@@ -430,7 +296,139 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
     );
   }
 
-  
+  adminButtons() {
+    let community_view = this.props.community_view;
+    return (
+      <>
+        <ul class="list-inline mb-1 text-muted font-weight-bold">
+          {this.canMod && (
+            <>
+              <li className="list-inline-item-action">
+                <button
+                  class="btn btn-link text-muted d-inline-block"
+                  onClick={linkEvent(this, this.handleEditClick)}
+                  data-tippy-content={i18n.t("edit")}
+                  aria-label={i18n.t("edit")}
+                >
+                  <Icon icon="edit" classes="icon-inline" />
+                </button>
+              </li>
+              {!this.amTopMod &&
+                (!this.state.showConfirmLeaveModTeam ? (
+                  <li className="list-inline-item-action">
+                    <button
+                      class="btn btn-link text-muted d-inline-block"
+                      onClick={linkEvent(
+                        this,
+                        this.handleShowConfirmLeaveModTeamClick
+                      )}
+                    >
+                      {i18n.t("leave_mod_team")}
+                    </button>
+                  </li>
+                ) : (
+                  <>
+                    <li className="list-inline-item-action">
+                      {i18n.t("are_you_sure")}
+                    </li>
+                    <li className="list-inline-item-action">
+                      <button
+                        class="btn btn-link text-muted d-inline-block"
+                        onClick={linkEvent(this, this.handleLeaveModTeamClick)}
+                      >
+                        {i18n.t("yes")}
+                      </button>
+                    </li>
+                    <li className="list-inline-item-action">
+                      <button
+                        class="btn btn-link text-muted d-inline-block"
+                        onClick={linkEvent(
+                          this,
+                          this.handleCancelLeaveModTeamClick
+                        )}
+                      >
+                        {i18n.t("no")}
+                      </button>
+                    </li>
+                  </>
+                ))}
+              {this.amTopMod && (
+                <li className="list-inline-item-action">
+                  <button
+                    class="btn btn-link text-muted d-inline-block"
+                    onClick={linkEvent(this, this.handleDeleteClick)}
+                    data-tippy-content={
+                      !community_view.community.deleted
+                        ? i18n.t("delete")
+                        : i18n.t("restore")
+                    }
+                    aria-label={
+                      !community_view.community.deleted
+                        ? i18n.t("delete")
+                        : i18n.t("restore")
+                    }
+                  >
+                    <Icon
+                      icon="trash"
+                      classes={`icon-inline ${
+                        community_view.community.deleted && "text-danger"
+                      }`}
+                    />
+                  </button>
+                </li>
+              )}
+            </>
+          )}
+          {this.canAdmin && (
+            <li className="list-inline-item">
+              {!this.props.community_view.community.removed ? (
+                <button
+                  class="btn btn-link text-muted d-inline-block"
+                  onClick={linkEvent(this, this.handleModRemoveShow)}
+                >
+                  {i18n.t("remove")}
+                </button>
+              ) : (
+                <button
+                  class="btn btn-link text-muted d-inline-block"
+                  onClick={linkEvent(this, this.handleModRemoveSubmit)}
+                >
+                  {i18n.t("restore")}
+                </button>
+              )}
+            </li>
+          )}
+        </ul>
+        {this.state.showRemoveDialog && (
+          <form onSubmit={linkEvent(this, this.handleModRemoveSubmit)}>
+            <div class="form-group row">
+              <label class="col-form-label" htmlFor="remove-reason">
+                {i18n.t("reason")}
+              </label>
+              <input
+                type="text"
+                id="remove-reason"
+                class="form-control mr-2"
+                placeholder={i18n.t("optional")}
+                value={this.state.removeReason}
+                onInput={linkEvent(this, this.handleModRemoveReasonChange)}
+              />
+            </div>
+            {/* TODO hold off on expires for now */}
+            {/* <div class="form-group row"> */}
+            {/*   <label class="col-form-label">Expires</label> */}
+            {/*   <input type="date" class="form-control mr-2" placeholder={i18n.t('expires')} value={this.state.removeExpires} onInput={linkEvent(this, this.handleModRemoveExpiresChange)} /> */}
+            {/* </div> */}
+            <div class="form-group row">
+              <button type="submit" class="btn btn-secondary">
+                {i18n.t("remove_community")}
+              </button>
+            </div>
+          </form>
+        )}
+      </>
+    );
+  }
 
   handleEditClick(i: Sidebar) {
     i.state.showEdit = true;
