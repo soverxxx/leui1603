@@ -83,16 +83,6 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
             {this.adminButtons()}
             {this.createPost()}
             {this.subscribe()}
-            {subscribed && (
-            <a
-              class="btn btn-secondary btn-sm mr-2"
-              href="#"
-              onClick={linkEvent(this, this.handleUnsubscribe)}
-            >
-              <Icon icon="check" classes="icon-inline text-success mr-1" />
-              {i18n.t("joined")}
-            </a>
-          )}
           </div>
         </div>
         <div class="card border-secondary mb-3">
@@ -416,6 +406,17 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
             {i18n.t("subscribe")}
           </a>
         )}
+
+                  {subscribed && (
+            <a
+              class="btn btn-secondary btn-sm mr-2"
+              href="#"
+              onClick={linkEvent(this, this.handleUnsubscribe)}
+            >
+              <Icon icon="check" classes="icon-inline text-success mr-1" />
+              {i18n.t("joined")}
+            </a>
+          )}
       </div>
     );
   }
