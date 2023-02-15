@@ -83,7 +83,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
             {this.adminButtons()}
             {this.createPost()}
             {this.subscribe()}
-            {this.subscribed()}
+            {this.unsub}
           </div>
         </div>
         <div class="card border-secondary mb-3">
@@ -99,7 +99,6 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
 
   communityTitle() {
     let community = this.props.community_view.community;
-    let subscribed = this.props.community_view.subscribed;
     return (
       <div>
         <h5 className="mb-0">
@@ -123,7 +122,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
               {i18n.t("nsfw")}
             </small>
           )}
-
+         
         </h5>
         <CommunityLink
           community={community}
@@ -411,10 +410,10 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
     );
   }
 
-subscribed() {
-let community_view = this.props.community_view;
-return (
-            subscribed && (
+unsub() {
+    let subscribed = this.props.community_view.subscribed;
+        return (
+     subscribed && (
             <a
               class="btn btn-secondary btn-sm mr-2"
               href="#"
@@ -424,8 +423,9 @@ return (
               {i18n.t("joined")}
             </a>
           )
-          );
-          }
+     );
+   }
+
 
   description() {
     let description = this.props.community_view.community.description;
