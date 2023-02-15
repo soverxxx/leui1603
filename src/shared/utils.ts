@@ -1103,7 +1103,7 @@ export function previewLines(
       .split("\n")
       // Use lines * 2 because markdown requires 2 lines
       .slice(0, maxLines * 4)
-      .join("\n") 
+      .join("\n") + " " 
   );
 }
 
