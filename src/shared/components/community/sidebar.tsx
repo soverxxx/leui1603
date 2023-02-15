@@ -23,6 +23,7 @@ import { Icon } from "../common/icon";
 import { CommunityForm } from "../community/community-form";
 import { CommunityLink } from "../community/community-link";
 import { PersonListing } from "../person/person-listing";
+
 interface SidebarProps {
   community_view: CommunityView;
   moderators: CommunityModeratorView[];
@@ -31,6 +32,7 @@ interface SidebarProps {
   enableNsfw: boolean;
   showIcon?: boolean;
 }
+
 interface SidebarState {
   showEdit: boolean;
   showRemoveDialog: boolean;
@@ -38,6 +40,7 @@ interface SidebarState {
   removeExpires: string;
   showConfirmLeaveModTeam: boolean;
 }
+
 export class Sidebar extends Component<SidebarProps, SidebarState> {
   private emptyState: SidebarState = {
     showEdit: false,
@@ -46,12 +49,14 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
     removeExpires: null,
     showConfirmLeaveModTeam: false,
   };
+
   constructor(props: any, context: any) {
     super(props, context);
     this.state = this.emptyState;
     this.handleEditCommunity = this.handleEditCommunity.bind(this);
     this.handleEditCancel = this.handleEditCancel.bind(this);
   }
+
   render() {
     return (
       <div>
@@ -68,6 +73,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
       </div>
     );
   }
+
   sidebar() {
     return (
       <div>
@@ -89,6 +95,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
       </div>
     );
   }
+
   communityTitle() {
     let community = this.props.community_view.community;
     let subscribed = this.props.community_view.subscribed;
@@ -135,6 +142,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
       </div>
     );
   }
+
   adminButtons() {
     let community_view = this.props.community_view;
     return (
@@ -268,6 +276,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
       </>
     );
   }
+
   badges() {
     let community_view = this.props.community_view;
     let counts = community_view.counts;
@@ -360,6 +369,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
       </ul>
     );
   }
+
   mods() {
     return (
       <ul class="list-inline small">
@@ -372,6 +382,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
       </ul>
     );
   }
+
   createPost() {
     let community_view = this.props.community_view;
     return (
@@ -389,6 +400,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
       )
     );
   }
+
   subscribe() {
     let community_view = this.props.community_view;
     return (
@@ -405,6 +417,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
       </div>
     );
   }
+
   description() {
     let description = this.props.community_view.community.description;
     return (
@@ -416,19 +429,24 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
       )
     );
   }
+
   
+
   handleEditClick(i: Sidebar) {
     i.state.showEdit = true;
     i.setState(i.state);
   }
+
   handleEditCommunity() {
     this.state.showEdit = false;
     this.setState(this.state);
   }
+
   handleEditCancel() {
     this.state.showEdit = false;
     this.setState(this.state);
   }
+
   handleDeleteClick(i: Sidebar, event: any) {
     event.preventDefault();
     let deleteForm: DeleteCommunity = {
@@ -438,10 +456,12 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
     };
     WebSocketService.Instance.send(wsClient.deleteCommunity(deleteForm));
   }
+
   handleShowConfirmLeaveModTeamClick(i: Sidebar) {
     i.state.showConfirmLeaveModTeam = true;
     i.setState(i.state);
   }
+
   handleLeaveModTeamClick(i: Sidebar) {
     let form: AddModToCommunity = {
       person_id: UserService.Instance.myUserInfo.local_user_view.person.id,
@@ -453,10 +473,12 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
     i.state.showConfirmLeaveModTeam = false;
     i.setState(i.state);
   }
+
   handleCancelLeaveModTeamClick(i: Sidebar) {
     i.state.showConfirmLeaveModTeam = false;
     i.setState(i.state);
   }
+
   handleUnsubscribe(i: Sidebar, event: any) {
     event.preventDefault();
     let community_id = i.props.community_view.community.id;
@@ -466,12 +488,14 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
       auth: authField(),
     };
     WebSocketService.Instance.send(wsClient.followCommunity(form));
+
     // Update myUserInfo
     UserService.Instance.myUserInfo.follows =
       UserService.Instance.myUserInfo.follows.filter(
         i => i.community.id != community_id
       );
   }
+
   handleSubscribe(i: Sidebar, event: any) {
     event.preventDefault();
     let community_id = i.props.community_view.community.id;
@@ -481,18 +505,21 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
       auth: authField(),
     };
     WebSocketService.Instance.send(wsClient.followCommunity(form));
+
     // Update myUserInfo
     UserService.Instance.myUserInfo.follows.push({
       community: i.props.community_view.community,
       follower: UserService.Instance.myUserInfo.local_user_view.person,
     });
   }
+
   private get amTopMod(): boolean {
     return (
       this.props.moderators[0].moderator.id ==
       UserService.Instance.myUserInfo.local_user_view.person.id
     );
   }
+
   get canMod(): boolean {
     return (
       UserService.Instance.myUserInfo &&
@@ -501,6 +528,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
         .includes(UserService.Instance.myUserInfo.local_user_view.person.id)
     );
   }
+
   get canAdmin(): boolean {
     return (
       UserService.Instance.myUserInfo &&
@@ -509,19 +537,23 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
         .includes(UserService.Instance.myUserInfo.local_user_view.person.id)
     );
   }
+
   handleModRemoveShow(i: Sidebar) {
     i.state.showRemoveDialog = true;
     i.setState(i.state);
   }
+
   handleModRemoveReasonChange(i: Sidebar, event: any) {
     i.state.removeReason = event.target.value;
     i.setState(i.state);
   }
+
   handleModRemoveExpiresChange(i: Sidebar, event: any) {
     console.log(event.target.value);
     i.state.removeExpires = event.target.value;
     i.setState(i.state);
   }
+
   handleModRemoveSubmit(i: Sidebar, event: any) {
     event.preventDefault();
     let removeForm: RemoveCommunity = {
@@ -532,6 +564,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
       auth: authField(),
     };
     WebSocketService.Instance.send(wsClient.removeCommunity(removeForm));
+
     i.state.showRemoveDialog = false;
     i.setState(i.state);
   }

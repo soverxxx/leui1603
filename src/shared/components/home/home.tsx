@@ -70,6 +70,7 @@ import { CommunityLink } from "../community/community-link";
 import { PersonListing } from "../person/person-listing";
 import { PostListings } from "../post/post-listings";
 import { SiteForm } from "./site-form";
+
 interface HomeState {
   trendingCommunities: CommunityView[];
   siteRes: GetSiteResponse;
@@ -85,18 +86,21 @@ interface HomeState {
   sort: SortType;
   page: number;
 }
+
 interface HomeProps {
   listingType: ListingType;
   dataType: DataType;
   sort: SortType;
   page: number;
 }
+
 interface UrlParams {
   listingType?: ListingType;
   dataType?: string;
   sort?: SortType;
   page?: number;
 }
+
 export class Home extends Component<any, HomeState> {
   private isoData = setIsoData(this.context);
   private subscription: Subscription;
@@ -115,16 +119,20 @@ export class Home extends Component<any, HomeState> {
     sort: getSortTypeFromProps(this.props),
     page: getPageFromProps(this.props),
   };
+
   constructor(props: any, context: any) {
     super(props, context);
+
     this.state = this.emptyState;
     this.handleEditCancel = this.handleEditCancel.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
     this.handleListingTypeChange = this.handleListingTypeChange.bind(this);
     this.handleDataTypeChange = this.handleDataTypeChange.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
+
     this.parseMessage = this.parseMessage.bind(this);
     this.subscription = wsSubscribe(this.parseMessage);
+
     // Only fetch the data if coming from another route
     if (this.isoData.path == this.context.router.route.match.url) {
       if (this.state.dataType == DataType.Post) {
@@ -139,6 +147,7 @@ export class Home extends Component<any, HomeState> {
       this.fetchData();
     }
   }
+
   fetchTrendingCommunities() {
     let listCommunitiesForm: ListCommunities = {
       type_: ListingType.Local,
@@ -150,19 +159,23 @@ export class Home extends Component<any, HomeState> {
       wsClient.listCommunities(listCommunitiesForm)
     );
   }
+
   componentDidMount() {
     // This means it hasn't been set up yet
     if (!this.state.siteRes.site_view) {
       this.context.router.history.push("/setup");
     }
+
     WebSocketService.Instance.send(wsClient.communityJoin({ community_id: 0 }));
     setupTippy();
   }
+
   componentWillUnmount() {
     saveScrollPosition(this.context);
     this.subscription.unsubscribe();
     window.isoData.path = undefined;
   }
+
   static getDerivedStateFromProps(props: any): HomeProps {
     return {
       listingType: getListingTypeFromProps(props),
@@ -171,11 +184,13 @@ export class Home extends Component<any, HomeState> {
       page: getPageFromProps(props),
     };
   }
+
   static fetchInitialData(req: InitialFetchRequest): Promise<any>[] {
     let pathSplit = req.path.split("/");
     let dataType: DataType = pathSplit[3]
       ? DataType[pathSplit[3]]
       : DataType.Post;
+
     // TODO figure out auth default_listingType, default_sort_type
     let type_: ListingType = pathSplit[5]
       ? ListingType[pathSplit[5]]
@@ -193,8 +208,11 @@ export class Home extends Component<any, HomeState> {
             .default_sort_type
         ]
       : SortType.Active;
+
     let page = pathSplit[9] ? Number(pathSplit[9]) : 1;
+
     let promises: Promise<any>[] = [];
+
     if (dataType == DataType.Post) {
       let getPostsForm: GetPosts = {
         page,
@@ -216,6 +234,7 @@ export class Home extends Component<any, HomeState> {
       setOptionalAuth(getCommentsForm, req.auth);
       promises.push(req.client.getComments(getCommentsForm));
     }
+
     let trendingCommunitiesForm: ListCommunities = {
       type_: ListingType.Local,
       sort: SortType.Hot,
@@ -223,8 +242,10 @@ export class Home extends Component<any, HomeState> {
     };
     setOptionalAuth(trendingCommunitiesForm, req.auth);
     promises.push(req.client.listCommunities(trendingCommunitiesForm));
+
     return promises;
   }
+
   componentDidUpdate(_: any, lastState: HomeState) {
     if (
       lastState.listingType !== this.state.listingType ||
@@ -236,6 +257,7 @@ export class Home extends Component<any, HomeState> {
       this.fetchData();
     }
   }
+
   get documentTitle(): string {
     return `${
       this.state.siteRes.site_view
@@ -245,6 +267,7 @@ export class Home extends Component<any, HomeState> {
         : "Lemmy"
     }`;
   }
+
   render() {
     return (
       <div class="container">
@@ -264,6 +287,7 @@ export class Home extends Component<any, HomeState> {
       </div>
     );
   }
+
   mobileView() {
     return (
       <div class="row">
@@ -328,6 +352,7 @@ export class Home extends Component<any, HomeState> {
       </div>
     );
   }
+
   mySidebar() {
     return (
       <div>
@@ -335,17 +360,25 @@ export class Home extends Component<any, HomeState> {
           <div>
             <div class="card border-secondary mb-3">
               <div class="card-body">
-                {this.trendingCommunities()}
+                {site.sidebar && this.siteSidebar()}
                 {this.createCommunityButton()}
                 {this.exploreCommunitiesButton()}
               </div>
             </div>
+
             {UserService.Instance.myUserInfo &&
               UserService.Instance.myUserInfo.follows.length > 0 && (
                 <div class="card border-secondary mb-3">
                   <div class="card-body">{this.subscribedCommunities()}</div>
                 </div>
               )}
+
+            <div class="card border-secondary mb-3">
+              <div class="card-body">
+                {this.trendingCommunities()}
+              </div>
+            </div>
+
             <div class="card border-secondary mb-3">
               <div class="card-body">{this.sidebar()}</div>
             </div>
@@ -354,13 +387,15 @@ export class Home extends Component<any, HomeState> {
       </div>
     );
   }
-  createCommunityButton() {
+
+  createPost() {
     return (
-      <Link className="mt-2 btn btn-secondary btn-block" to="/create_community">
-        {i18n.t("create_a_community")}
+      <Link className="mt-2 btn btn-secondary btn-block" to="/create_post">
+        {i18n.t("create_a_post")}
       </Link>
     );
   }
+
   exploreCommunitiesButton() {
     return (
       <Link className="btn btn-secondary btn-block" to="/communities">
@@ -368,6 +403,7 @@ export class Home extends Component<any, HomeState> {
       </Link>
     );
   }
+
   trendingCommunities() {
     return (
       <div>
@@ -389,6 +425,7 @@ export class Home extends Component<any, HomeState> {
       </div>
     );
   }
+
   subscribedCommunities() {
     return (
       <div>
@@ -410,6 +447,7 @@ export class Home extends Component<any, HomeState> {
       </div>
     );
   }
+
   sidebar() {
     let site = this.state.siteRes.site_view.site;
     return (
@@ -417,11 +455,11 @@ export class Home extends Component<any, HomeState> {
         {!this.state.showEditSite ? (
           <div>
             <div class="mb-2">
-              {this.siteName()}
+              
               {this.adminButtons()}
             </div>
             <BannerIconHeader banner={site.banner} />
-            {this.siteInfo()}
+            
           </div>
         ) : (
           <SiteForm site={site} onCancel={this.handleEditCancel} />
@@ -429,6 +467,7 @@ export class Home extends Component<any, HomeState> {
       </div>
     );
   }
+
   updateUrl(paramUpdates: UrlParams) {
     const listingTypeStr = paramUpdates.listingType || this.state.listingType;
     const dataTypeStr = paramUpdates.dataType || DataType[this.state.dataType];
@@ -438,21 +477,23 @@ export class Home extends Component<any, HomeState> {
       `/home/data_type/${dataTypeStr}/listing_type/${listingTypeStr}/sort/${sortStr}/page/${page}`
     );
   }
+
   siteInfo() {
     let site = this.state.siteRes.site_view.site;
     return (
       <div>
         {site.description && <h6>{site.description}</h6>}
-        {site.sidebar && this.siteSidebar()}
         {this.badges()}
         {this.admins()}
       </div>
     );
   }
+
   siteName() {
     let site = this.state.siteRes.site_view.site;
     return site.name && <h5 class="mb-0">{site.name}</h5>;
   }
+
   admins() {
     return (
       <ul class="mt-1 list-inline small mb-0">
@@ -465,6 +506,7 @@ export class Home extends Component<any, HomeState> {
       </ul>
     );
   }
+
   badges() {
     let counts = this.state.siteRes.site_view.counts;
     return (
@@ -559,6 +601,7 @@ export class Home extends Component<any, HomeState> {
       </ul>
     );
   }
+
   adminButtons() {
     return (
       this.canAdmin && (
@@ -577,6 +620,7 @@ export class Home extends Component<any, HomeState> {
       )
     );
   }
+
   siteSidebar() {
     return (
       <div
@@ -587,6 +631,7 @@ export class Home extends Component<any, HomeState> {
       />
     );
   }
+
   posts() {
     return (
       <div class="main-content-wrapper">
@@ -607,6 +652,7 @@ export class Home extends Component<any, HomeState> {
       </div>
     );
   }
+
   listings() {
     let site = this.state.siteRes.site_view.site;
     return this.state.dataType == DataType.Post ? (
@@ -627,12 +673,14 @@ export class Home extends Component<any, HomeState> {
       />
     );
   }
+
   selects() {
     let allRss = `/feeds/all.xml?sort=${this.state.sort}`;
     let localRss = `/feeds/local.xml?sort=${this.state.sort}`;
     let frontRss = UserService.Instance.myUserInfo
       ? `/feeds/front/${UserService.Instance.auth}.xml?sort=${this.state.sort}`
       : "";
+
     return (
       <div className="mb-3">
         <span class="mr-3">
@@ -683,6 +731,7 @@ export class Home extends Component<any, HomeState> {
       </div>
     );
   }
+
   get canAdmin(): boolean {
     return (
       UserService.Instance.myUserInfo &&
@@ -691,42 +740,52 @@ export class Home extends Component<any, HomeState> {
         .includes(UserService.Instance.myUserInfo.local_user_view.person.id)
     );
   }
+
   handleEditClick(i: Home) {
     i.state.showEditSite = true;
     i.setState(i.state);
   }
+
   handleEditCancel() {
     this.state.showEditSite = false;
     this.setState(this.state);
   }
+
   handleShowSubscribedMobile(i: Home) {
     i.state.showSubscribedMobile = !i.state.showSubscribedMobile;
     i.setState(i.state);
   }
+
   handleShowTrendingMobile(i: Home) {
     i.state.showTrendingMobile = !i.state.showTrendingMobile;
     i.setState(i.state);
   }
+
   handleShowSidebarMobile(i: Home) {
     i.state.showSidebarMobile = !i.state.showSidebarMobile;
     i.setState(i.state);
   }
+
   handlePageChange(page: number) {
     this.updateUrl({ page });
     window.scrollTo(0, 0);
   }
+
   handleSortChange(val: SortType) {
     this.updateUrl({ sort: val, page: 1 });
     window.scrollTo(0, 0);
   }
+
   handleListingTypeChange(val: ListingType) {
     this.updateUrl({ listingType: val, page: 1 });
     window.scrollTo(0, 0);
   }
+
   handleDataTypeChange(val: DataType) {
     this.updateUrl({ dataType: DataType[val], page: 1 });
     window.scrollTo(0, 0);
   }
+
   fetchData() {
     if (this.state.dataType == DataType.Post) {
       let getPostsForm: GetPosts = {
@@ -750,6 +809,7 @@ export class Home extends Component<any, HomeState> {
       WebSocketService.Instance.send(wsClient.getComments(getCommentsForm));
     }
   }
+
   parseMessage(msg: any) {
     let op = wsUserOp(msg);
     console.log(msg);
@@ -780,6 +840,7 @@ export class Home extends Component<any, HomeState> {
       setupTippy();
     } else if (op == UserOperation.CreatePost) {
       let data = wsJsonToRes<PostResponse>(msg).data;
+
       // NSFW check
       let nsfw = data.post_view.post.nsfw || data.post_view.community.nsfw;
       let nsfwCheck =
@@ -787,6 +848,7 @@ export class Home extends Component<any, HomeState> {
         (nsfw &&
           UserService.Instance.myUserInfo &&
           UserService.Instance.myUserInfo.local_user_view.local_user.show_nsfw);
+
       // Only push these if you're on the first page, and you pass the nsfw check
       if (this.state.page == 1 && nsfwCheck) {
         // If you're on subscribed, only push it if you're subscribed.
@@ -850,6 +912,7 @@ export class Home extends Component<any, HomeState> {
       this.state.posts
         .filter(p => p.creator.id == data.person_view.person.id)
         .forEach(p => (p.creator.banned = data.banned));
+
       this.setState(this.state);
     } else if (op == UserOperation.GetComments) {
       let data = wsJsonToRes<GetCommentsResponse>(msg).data;
@@ -866,6 +929,7 @@ export class Home extends Component<any, HomeState> {
       this.setState(this.state);
     } else if (op == UserOperation.CreateComment) {
       let data = wsJsonToRes<CommentResponse>(msg).data;
+
       // Necessary since it might be a user reply
       if (data.form_id) {
         // If you're on subscribed, only push it if you're subscribed.
