@@ -327,7 +327,7 @@ export class Home extends Component<any, HomeState> {
         </div>
       </div>
     );
-  }
+  } 
   mySidebar() {
     return (
       <div>
