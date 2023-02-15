@@ -78,7 +78,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
     return (
       <div>
         <div class="card border-secondary mb-3">
-          <div class="card-body">
+          <div class="card-body card-body-first">
             {this.communityTitle()}
             {this.adminButtons()}
             {this.subscribe()}
@@ -106,16 +106,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
             <BannerIconHeader icon={community.icon} banner={community.banner} />
           )}
           <span class="mr-2">{community.title}</span>
-          {subscribed && (
-            <a
-              class="btn btn-secondary btn-sm mr-2"
-              href="#"
-              onClick={linkEvent(this, this.handleUnsubscribe)}
-            >
-              <Icon icon="check" classes="icon-inline text-success mr-1" />
-              {i18n.t("joined")}
-            </a>
-          )}
+          
           {community.removed && (
             <small className="mr-2 text-muted font-italic">
               {i18n.t("removed")}
@@ -130,6 +121,16 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
             <small className="mr-2 text-muted font-italic">
               {i18n.t("nsfw")}
             </small>
+          )}
+          {subscribed && (
+            <a
+              class="btn btn-secondary btn-sm mr-2"
+              href="#"
+              onClick={linkEvent(this, this.handleUnsubscribe)}
+            >
+              <Icon icon="check" classes="icon-inline text-success mr-1" />
+              {i18n.t("joined")}
+            </a>
           )}
         </h5>
         <CommunityLink
