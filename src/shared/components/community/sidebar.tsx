@@ -79,11 +79,10 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
       <div>
         <div class="card border-secondary mb-3">
           <div class="card-body card-body-first">
-            {this.communityTitle()}
             {this.adminButtons()}
+            {this.communityTitle()}
             {this.createPost()}
             {this.subscribe()}
-            {this.unsub}
           </div>
         </div>
         <div class="card border-secondary mb-3">
@@ -99,6 +98,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
 
   communityTitle() {
     let community = this.props.community_view.community;
+    let subscribed = this.props.community_view.subscribed;
     return (
       <div>
         <h5 className="mb-0">
@@ -122,7 +122,16 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
               {i18n.t("nsfw")}
             </small>
           )}
-         
+          {subscribed && (
+            <a
+              class="btn btn-secondary btn-sm mr-2"
+              href="#"
+              onClick={linkEvent(this, this.handleUnsubscribe)}
+            >
+              <Icon icon="check" classes="icon-inline text-success mr-1" />
+              {i18n.t("joined")}
+            </a>
+          )}
         </h5>
         <CommunityLink
           community={community}
@@ -409,23 +418,6 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
       </div>
     );
   }
-
-unsub() {
-    let subscribed = this.props.community_view.subscribed;
-        return (
-     subscribed && (
-            <a
-              class="btn btn-secondary btn-sm mr-2"
-              href="#"
-              onClick={linkEvent(this, this.handleUnsubscribe)}
-            >
-              <Icon icon="check" classes="icon-inline text-success mr-1" />
-              {i18n.t("joined")}
-            </a>
-          )
-     );
-   }
-
 
   description() {
     let description = this.props.community_view.community.description;
