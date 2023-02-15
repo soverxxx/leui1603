@@ -1102,8 +1102,8 @@ export function previewLines(
       .slice(0, maxChars)
       .split("\n")
       // Use lines * 2 because markdown requires 2 lines
-      .slice(0, maxLines * 4)
-      .join("\n") + " " 
+      .slice(0, maxLines * 2)
+      .join("\n") + "..." 
   );
 }
 
