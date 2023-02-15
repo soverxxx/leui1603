@@ -335,7 +335,7 @@ export class Home extends Component<any, HomeState> {
           <div>
             <div class="card border-secondary mb-3">
               <div class="card-body">
-                {site.sidebar && this.siteSidebar()}
+                
                 {this.createCommunityButton()}
                 {this.exploreCommunitiesButton()}
               </div>
@@ -446,7 +446,7 @@ export class Home extends Component<any, HomeState> {
     return (
       <div class="tested-sidebar">
         
-        
+        {site.sidebar && this.siteSidebar()}
         {this.badges()}
         {this.admins()}
       </div>
