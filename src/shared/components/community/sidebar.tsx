@@ -83,6 +83,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
             {this.adminButtons()}
             {this.createPost()}
             {this.subscribe()}
+            {this.subscribed()}
           </div>
         </div>
         <div class="card border-secondary mb-3">
@@ -378,7 +379,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
   createPost() {
     let community_view = this.props.community_view;
     return (
-      { community_view.subscribed && (
+      community_view.subscribed && (
         <Link
           className={`btn btn-secondary btn-block mb-2 ${
             community_view.community.deleted || community_view.community.removed
@@ -389,18 +390,7 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
         >
           {i18n.t("create_a_post")}
         </Link>
-      )}
-          {subscribed && (
-            <a
-              class="btn btn-secondary btn-sm mr-2"
-              href="#"
-              onClick={linkEvent(this, this.handleUnsubscribe)}
-            >
-              <Icon icon="check" classes="icon-inline text-success mr-1" />
-              {i18n.t("joined")}
-            </a>
-          )}
-
+      )
     );
   }
 
@@ -420,6 +410,22 @@ export class Sidebar extends Component<SidebarProps, SidebarState> {
       </div>
     );
   }
+
+subscribed() {
+let community_view = this.props.community_view;
+return (
+            subscribed && (
+            <a
+              class="btn btn-secondary btn-sm mr-2"
+              href="#"
+              onClick={linkEvent(this, this.handleUnsubscribe)}
+            >
+              <Icon icon="check" classes="icon-inline text-success mr-1" />
+              {i18n.t("joined")}
+            </a>
+          )
+          );
+          }
 
   description() {
     let description = this.props.community_view.community.description;
