@@ -335,9 +335,11 @@ export class Home extends Component<any, HomeState> {
           <div>
             <div class="card border-secondary mb-3">
               <div class="card-body">
-                
+              <div class="home-top-sidebar">
+                {this.createPostButton()}
                 {this.createCommunityButton()}
                 {this.exploreCommunitiesButton()}
+                </div>
               </div>
             </div>
             {UserService.Instance.myUserInfo &&
@@ -357,10 +359,17 @@ export class Home extends Component<any, HomeState> {
       </div>
     );
   }
-  createCommunityButton() {
+  createPostButton() {
     return (
       <Link className="mt-2 btn btn-secondary btn-block" to="/create_post">
         {i18n.t("create_a_post")}
+      </Link>
+    );
+  }
+   createCommunityButton() {
+    return (
+      <Link className="mt-2 btn btn-secondary btn-block" to="/create_community">
+        {i18n.t("create_a_community")}
       </Link>
     );
   }
