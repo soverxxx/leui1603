@@ -1080,8 +1080,6 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
           {!this.state.imageExpanded && this.thumbnail()}
         </div>
       </div>
-    ) : (
-      this.postTitleLine()
     );
   }
 
