@@ -1080,6 +1080,8 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
           {!this.state.imageExpanded && this.thumbnail()}
         </div>
       </div>
+    ) : (
+      this.postTitleLine()
     );
   }
 
@@ -1106,8 +1108,7 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
           <div class="row">
             <div class="col-12">
               {this.createdLine()}
-              {this.postTitleLine()}
-             
+
               {/* If it has a thumbnail, do a right aligned thumbnail */}
               <div class="mob-thumbi">{this.mobileThumbnail()}</div>
 
