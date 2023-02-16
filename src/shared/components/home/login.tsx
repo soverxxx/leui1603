@@ -140,6 +140,14 @@ export class Login extends Component<any, State> {
               >
                 {i18n.t("forgot_password")}
               </button>
+              <button
+                type="button"
+                onClick="location.href='/signup'"
+                className="btn p-0 btn-link d-inline-block float-right text-muted small font-weight-bold"
+                title={i18n.t("регистрация")}
+              >
+                {i18n.t("регистрация")}
+              </button>
             </div>
           </div>
           <div class="form-group row">
