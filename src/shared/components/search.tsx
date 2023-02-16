@@ -335,6 +335,7 @@ export class Search extends Component<any, SearchState> {
 
   render() {
     return (
+      <div class="search-css">
       <div class="container">
         <HtmlTags
           title={this.documentTitle}
@@ -351,6 +352,7 @@ export class Search extends Component<any, SearchState> {
         {this.state.type_ == SearchType.Url && this.posts()}
         {this.resultsCount() == 0 && <span>{i18n.t("no_results")}</span>}
         <Paginator page={this.state.page} onChange={this.handlePageChange} />
+      </div>
       </div>
     );
   }

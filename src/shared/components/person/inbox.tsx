@@ -150,6 +150,7 @@ export class Inbox extends Component<any, InboxState> {
           </h5>
         ) : (
           <div class="row">
+          <div class="inbox-css">
             <div class="col-12">
               <HtmlTags
                 title={this.documentTitle}
@@ -191,6 +192,7 @@ export class Inbox extends Component<any, InboxState> {
                 page={this.state.page}
                 onChange={this.handlePageChange}
               />
+            </div>
             </div>
           </div>
         )}
