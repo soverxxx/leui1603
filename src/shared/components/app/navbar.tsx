@@ -334,15 +334,6 @@ export class Navbar extends Component<NavbarProps, NavbarState> {
                   </NavLink>
                 </li>
               )}
-              <li class="nav-item">
-                <a
-                  className="nav-link"
-                  title={i18n.t("support_lemmy")}
-                  href={donateLemmyUrl}
-                >
-                  <Icon icon="heart" classes="small" />
-                </a>
-              </li>
             </ul>
             <ul class="navbar-nav my-2">
               {this.canAdmin && (
@@ -502,16 +493,6 @@ export class Navbar extends Component<NavbarProps, NavbarState> {
                     title={i18n.t("login")}
                   >
                     {i18n.t("login")}
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink
-                    to="/signup"
-                    className="nav-link"
-                    onMouseUp={linkEvent(this, this.handleHideExpandNavbar)}
-                    title={i18n.t("sign_up")}
-                  >
-                    {i18n.t("sign_up")}
                   </NavLink>
                 </li>
               </ul>
