@@ -68,39 +68,7 @@ export class SortSelect extends Component<SortSelectProps, SortSelectState> {
           <option value={SortType.TopYear}>{i18n.t("top_year")}</option>
           <option value={SortType.TopAll}>{i18n.t("top_all")}</option>
         </select>
-                  {!this.context.router.history.location.pathname.match(
-              /^\/search/
-            ) && (
-              <form
-                class="form-inline mr-2"
-                onSubmit={linkEvent(this, this.handleSearchSubmit)}
-              >
-                <input
-                  id="search-input"
-                  class={`form-control mr-0 search-input ${
-                    this.state.toggleSearch ? "show-input" : "hide-input"
-                  }`}
-                  onInput={linkEvent(this, this.handleSearchParam)}
-                  value={this.state.searchParam}
-                  ref={this.searchTextField}
-                  type="text"
-                  placeholder={i18n.t("search")}
-                  onBlur={linkEvent(this, this.handleSearchBlur)}
-                ></input>
-                <label class="sr-only" htmlFor="search-input">
-                  {i18n.t("search")}
-                </label>
-                <button
-                  name="search-btn"
-                  onClick={linkEvent(this, this.handleSearchBtn)}
-                  class="px-1 btn btn-link"
-                  style="color: var(--gray)"
-                  aria-label={i18n.t("search")}
-                >
-                  <Icon icon="search" />
-                </button>
-              </form>
-            )}
+        
       </>
     );
   }

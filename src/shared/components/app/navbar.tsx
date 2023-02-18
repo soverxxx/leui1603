@@ -253,7 +253,39 @@ export class Navbar extends Component<NavbarProps, NavbarState> {
               )}
             </>
           )}
-
+          {!this.context.router.history.location.pathname.match(
+              /^\/search/
+            ) && (
+              <form
+                class="form-inline mr-2"
+                onSubmit={linkEvent(this, this.handleSearchSubmit)}
+              >
+                <input
+                  id="search-input"
+                  class={`form-control mr-0 search-input ${
+                    this.state.toggleSearch ? "show-input" : "hide-input"
+                  }`}
+                  onInput={linkEvent(this, this.handleSearchParam)}
+                  value={this.state.searchParam}
+                  ref={this.searchTextField}
+                  type="text"
+                  placeholder={i18n.t("search")}
+                  onBlur={linkEvent(this, this.handleSearchBlur)}
+                ></input>
+                <label class="sr-only" htmlFor="search-input">
+                  {i18n.t("search")}
+                </label>
+                <button
+                  name="search-btn"
+                  onClick={linkEvent(this, this.handleSearchBtn)}
+                  class="px-1 btn btn-link"
+                  style="color: var(--gray)"
+                  aria-label={i18n.t("search")}
+                >
+                  <Icon icon="search" />
+                </button>
+              </form>
+            )}
           <button
             class="navbar-toggler border-0 p-1"
             type="button"
@@ -320,26 +352,7 @@ export class Navbar extends Component<NavbarProps, NavbarState> {
 
             {this.state.isLoggedIn ? (
               <>
-                <ul class="navbar-nav my-2">
-                  <li className="nav-item">
-                    <NavLink
-                      className="nav-link"
-                      to="/inbox"
-                      onMouseUp={linkEvent(this, this.handleHideExpandNavbar)}
-                      title={i18n.t("unread_messages", {
-                        count: this.state.unreadInboxCount,
-                        formattedCount: numToSI(this.state.unreadInboxCount),
-                      })}
-                    >
-                      <Icon icon="bell" />
-                      {this.state.unreadInboxCount > 0 && (
-                        <span class="ml-1 badge badge-light">
-                          {numToSI(this.state.unreadInboxCount)}
-                        </span>
-                      )}
-                    </NavLink>
-                  </li>
-                </ul>
+                
                 {UserService.Instance.myUserInfo?.moderates.length > 0 && (
                   <ul class="navbar-nav my-2">
                     <li className="nav-item">
@@ -387,6 +400,26 @@ export class Navbar extends Component<NavbarProps, NavbarState> {
                     </li>
                   </ul>
                 )}
+                  <ul class="navbar-nav my-2">
+                  <li className="nav-item">
+                    <NavLink
+                      className="nav-link"
+                      to="/inbox"
+                      onMouseUp={linkEvent(this, this.handleHideExpandNavbar)}
+                      title={i18n.t("unread_messages", {
+                        count: this.state.unreadInboxCount,
+                        formattedCount: numToSI(this.state.unreadInboxCount),
+                      })}
+                    >
+                      <Icon icon="bell" />
+                      {this.state.unreadInboxCount > 0 && (
+                        <span class="ml-1 badge badge-light">
+                          {numToSI(this.state.unreadInboxCount)}
+                        </span>
+                      )}
+                    </NavLink>
+                  </li>
+                </ul>
                 <ul class="navbar-nav">
                   <li class="nav-item dropdown">
                     <button
