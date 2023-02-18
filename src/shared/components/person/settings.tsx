@@ -468,24 +468,6 @@ export class Settings extends Component<any, SettingsState> {
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-sm-5 col-form-label" htmlFor="matrix-user-id">
-              <a href={elementUrl} rel={relTags}>
-                {i18n.t("matrix_user_id")}
-              </a>
-            </label>
-            <div class="col-sm-7">
-              <input
-                id="matrix-user-id"
-                type="text"
-                class="form-control"
-                placeholder="@user:example.com"
-                value={this.state.saveUserSettingsForm.matrix_user_id}
-                onInput={linkEvent(this, this.handleMatrixUserIdChange)}
-                pattern="^@[A-Za-z0-9._=-]+:[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
-              />
-            </div>
-          </div>
-          <div class="form-group row">
             <label class="col-sm-3">{i18n.t("avatar")}</label>
             <div class="col-sm-9">
               <ImageUploadForm
