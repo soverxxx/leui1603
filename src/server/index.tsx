@@ -67,20 +67,8 @@ server.get("/css/themes/:name", async (req, res) => {
 
 function buildThemeList(): string[] {
   let themes = [
-    "litera",
-    "materia",
-    "minty",
-    "solar",
-    "united",
-    "cyborg",
     "darkly",
-    "journal",
-    "sketchy",
-    "vaporwave",
-    "vaporwave-dark",
-    "i386",
     "litely",
-    "nord",
   ];
   if (fs.existsSync(extraThemesFolder)) {
     let dirThemes = fs.readdirSync(extraThemesFolder);
